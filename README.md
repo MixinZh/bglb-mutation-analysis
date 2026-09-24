@@ -8,9 +8,8 @@ BglB is a beta-glucosidase, an enzyme that breaks certain sugar bonds. This
 project compares repeated measurements of individual BglB mutations with
 CatPred results. It examines catalytic efficiency, a measure of how
 effectively the enzyme processes the substrate, relative to the unchanged
-enzyme (WT). The measurements here use pNPG.
+enzyme (WT). 
 
-**Author and sole code contributor:** Mixin Zhao.
 
 **Data source:** The experimental data were obtained from the public
 [Design2Data (D2D) database](https://d2d-cure.vercel.app/database/characterization_data/BglB).

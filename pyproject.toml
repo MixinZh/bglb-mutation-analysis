@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "bglb-mutation-analysis"
+version = "0.3.0"
+description = "Compare repeated BglB measurements with model results."
+authors = [{name = "Mixin Zhao"}]
+license = {file = "LICENSE"}
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = []
+
+[project.optional-dependencies]
+plots = ["matplotlib>=3.8,<4"]
+
+[project.scripts]
+bglb-compare = "bglb_analysis.analysis:main"
+bglb-reproduce = "bglb_analysis.reproduce:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]

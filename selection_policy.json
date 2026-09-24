@@ -1,0 +1,12 @@
+{
+  "policy_id": "repeated-measurements-v2-row-review",
+  "minimum_eligible_records": 4,
+  "minimum_contributor_groups": 4,
+  "highlight_minimum_records": 6,
+  "effect_threshold_log10": 0.2,
+  "high_spread_threshold_log10": 0.6,
+  "selection_basis": "Review usable measurements individually. Retain rows with a recorded WT reference or documented contributor-group WT, known contributor, and no earlier row-level downweight flag. Recompute the mutation summary and existing disagreement checks on those rows. At least four retained records and four contributor groups are required. A separately excluded record does not veto a mutation. Rank qualified mutations by retained-record count, without using predictions.",
+  "amendment": "The original whole-mutation quality gate excluded N220F because one of its 12 records lacked usable expression and kinetic data. This revision assesses contributing records directly, retaining all earlier exclusions and labels. The rule change is retrospective, and the original broader-dataset results were already known.",
+  "analysis_status": "Retrospective descriptive analysis. Existing full-dataset results were already known. This is not a preregistered or untouched validation set.",
+  "replicate_boundary": "Database records and contributor groups are counted. Neither establishes independent biological replicates without experiment-level metadata."
+}

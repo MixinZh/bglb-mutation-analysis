@@ -1,0 +1,258 @@
+{
+  "checked_at_utc": "2026-09-24T22:23:42.353061+00:00",
+  "database_page": "https://d2d-cure.vercel.app/database/characterization_data/BglB",
+  "public_endpoint": "https://d2d-cure.vercel.app/api/getCharacterizationData?enzyme=BglB",
+  "authentication": "none",
+  "http_status": 200,
+  "public_response_sha256": "382672134d52698ecda1bd3cdf1edfec1fcdf65a181fc5b6d165777bf209beca",
+  "public_response_bytes": 3506863,
+  "local_database_sha256": "fdfa0a47c0ed9154532634e81bf1e9c3fd6302a24d756f07eac76bab44bffcee",
+  "comparison_sha256": "acf1f63fef6c01610799112ada2aa70f90f980628b3dc2c5e0b26f8d29f86a9b",
+  "checker_sha256": "e2730124432f6d5692b8a391734808ca0221af596e9bacc5542eaef02959337c",
+  "method": "Join by record ID; compare all 23 export columns. Numbers must be exactly equal after decimal parsing. Follow the public page's CSV blank and WT-label formatting. No data values are changed.",
+  "scope": "Endpoint availability is recorded separately from current table display and curation. This check does not establish the original download date, permission to redistribute the database, or experimental independence.",
+  "local_records": 1519,
+  "public_endpoint_records": 3517,
+  "public_curated_records": 1738,
+  "public_displayable_records_including_pending": 2863,
+  "local_ids_found": 1519,
+  "missing_ids": [],
+  "local_records_matching_all_columns": 1501,
+  "local_records_matching_kinetic_columns": 1519,
+  "compared_columns": [
+    "Created by",
+    "Curated?",
+    "Expressed?",
+    "ID #",
+    "Induced?",
+    "Institution",
+    "KM (mM)",
+    "KM SD",
+    "Rosetta score change",
+    "T50 (degrees C)",
+    "T50 SD",
+    "Tm (degrees C)",
+    "Tm SD",
+    "Variant",
+    "Yield (mg/mL)",
+    "kcat (1/min)",
+    "kcat SD",
+    "kcat/KM (1/(mM min))",
+    "kcat/KM SD",
+    "reference KM",
+    "reference T50",
+    "reference kcat",
+    "reference kcat/KM"
+  ],
+  "kinetic_columns": [
+    "KM (mM)",
+    "KM SD",
+    "reference KM",
+    "kcat (1/min)",
+    "kcat SD",
+    "reference kcat",
+    "kcat/KM (1/(mM min))",
+    "kcat/KM SD",
+    "reference kcat/KM"
+  ],
+  "differing_cells": 25,
+  "differences_by_field": {
+    "Curated?": 14,
+    "T50 (degrees C)": 3,
+    "T50 SD": 3,
+    "Tm (degrees C)": 2,
+    "Tm SD": 2,
+    "reference T50": 1
+  },
+  "differences": [
+    {
+      "record_id": "4059",
+      "mutation": "D63K",
+      "fields": [
+        "T50 (degrees C)",
+        "T50 SD"
+      ]
+    },
+    {
+      "record_id": "2428",
+      "mutation": "A80P",
+      "fields": [
+        "Tm (degrees C)",
+        "Tm SD",
+        "reference T50"
+      ]
+    },
+    {
+      "record_id": "322",
+      "mutation": "I91K",
+      "fields": [
+        "Curated?"
+      ]
+    },
+    {
+      "record_id": "4056",
+      "mutation": "H119P",
+      "fields": [
+        "T50 (degrees C)",
+        "T50 SD"
+      ]
+    },
+    {
+      "record_id": "3731",
+      "mutation": "D128E",
+      "fields": [
+        "Curated?"
+      ]
+    },
+    {
+      "record_id": "349",
+      "mutation": "N163S",
+      "fields": [
+        "Curated?"
+      ]
+    },
+    {
+      "record_id": "4335",
+      "mutation": "E164A",
+      "fields": [
+        "Curated?"
+      ]
+    },
+    {
+      "record_id": "152",
+      "mutation": "T175C",
+      "fields": [
+        "Curated?"
+      ]
+    },
+    {
+      "record_id": "2575",
+      "mutation": "F243H",
+      "fields": [
+        "Curated?"
+      ]
+    },
+    {
+      "record_id": "1221",
+      "mutation": "F243H",
+      "fields": [
+        "Curated?"
+      ]
+    },
+    {
+      "record_id": "1229",
+      "mutation": "Y265F",
+      "fields": [
+        "Tm (degrees C)",
+        "Tm SD"
+      ]
+    },
+    {
+      "record_id": "4216",
+      "mutation": "N304H",
+      "fields": [
+        "Curated?"
+      ]
+    },
+    {
+      "record_id": "4373",
+      "mutation": "N304H",
+      "fields": [
+        "Curated?"
+      ]
+    },
+    {
+      "record_id": "3755",
+      "mutation": "E312V",
+      "fields": [
+        "Curated?"
+      ]
+    },
+    {
+      "record_id": "1957",
+      "mutation": "W325A",
+      "fields": [
+        "Curated?",
+        "T50 (degrees C)",
+        "T50 SD"
+      ]
+    },
+    {
+      "record_id": "324",
+      "mutation": "E377Q",
+      "fields": [
+        "Curated?"
+      ]
+    },
+    {
+      "record_id": "811",
+      "mutation": "W407H",
+      "fields": [
+        "Curated?"
+      ]
+    },
+    {
+      "record_id": "2273",
+      "mutation": "W409T",
+      "fields": [
+        "Curated?"
+      ]
+    }
+  ],
+  "not_currently_curated_ids": [
+    "322",
+    "3731",
+    "349",
+    "4335",
+    "152",
+    "2575",
+    "1221",
+    "4216",
+    "4373",
+    "3755",
+    "1957",
+    "324",
+    "811",
+    "2273"
+  ],
+  "not_currently_displayed_ids": [
+    "1221"
+  ],
+  "comparison_sets": {
+    "primary": {
+      "mutations": 11,
+      "total_local_records": 86,
+      "retained_records": 63,
+      "missing_ids": [],
+      "differing_ids": [],
+      "not_currently_curated_ids": [],
+      "not_currently_displayed_ids": []
+    },
+    "highest_repeat": {
+      "mutations": 4,
+      "total_local_records": 48,
+      "retained_records": 31,
+      "missing_ids": [],
+      "differing_ids": [],
+      "not_currently_curated_ids": [],
+      "not_currently_displayed_ids": []
+    },
+    "all_repeated": {
+      "mutations": 33,
+      "total_local_records": 205,
+      "retained_records": 160,
+      "missing_ids": [],
+      "differing_ids": [
+        "1221",
+        "2575"
+      ],
+      "not_currently_curated_ids": [
+        "1221",
+        "2575"
+      ],
+      "not_currently_displayed_ids": [
+        "1221"
+      ]
+    }
+  }
+}

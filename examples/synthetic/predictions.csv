@@ -1,0 +1,5 @@
+mutation_id,evaluation,model,prediction,observed_delta_log10_eff
+A10V,position_holdout,demo_model,0.01,-1.0
+G20S,position_holdout,demo_model,-0.01,0.3
+L30A,position_holdout,demo_model,0.0,0.0
+S40A,position_holdout,demo_model,0.0,0.0

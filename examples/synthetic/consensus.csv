@@ -1,0 +1,5 @@
+mutation_id,position,n_rows,n_verified_contexts,quality_tier,quality_reason_codes,target_delta_log10_eff,target_source_record_ids
+A10V,10,4,4,CORE,,-1.0,demo01|demo02|demo03|demo04
+G20S,20,4,4,CORE,,0.3,demo05|demo06|demo07|demo08
+L30A,30,4,4,EXTENDED,REPLICATE_STRONG_REVERSAL,0.0,demo09|demo10|demo11|demo12
+S40A,40,3,3,CORE,,0.0,demo13|demo14|demo15

@@ -1,0 +1,73 @@
+{
+  "description": "Numerical BglB/pNPG analysis inputs derived from public D2D measurements and CatPred results.",
+  "data_source": "https://d2d-cure.vercel.app/database/characterization_data/BglB",
+  "public_endpoint": "https://d2d-cure.vercel.app/api/getCharacterizationData?enzyme=BglB",
+  "snapshot_download_date": null,
+  "snapshot_file_modification_date": "2026-02-03",
+  "audit_freeze_month": "2026-07",
+  "public_source_checked": "2026-09-24",
+  "catpred_export_date": "2026-05-15",
+  "catpred_code_revision": null,
+  "catpred_columns": [
+    "log10kcat_max",
+    "log10km_mean"
+  ],
+  "catpred_calculation": "10 ** (log10kcat_max - log10km_mean), divided by the WT median; take the median per substitution and then log10.",
+  "grouping": "Contributor labels replaced by sequential IDs in source-row order; unknown contributors stay unknown. No name mapping is distributed.",
+  "scope": "Reproduces the comparison from audited inputs. Does not rerun CatPred inference or recreate the original raw-data audit.",
+  "source_files": {
+    "audit": {
+      "name": "row_audit.csv",
+      "sha256": "948b9e15884fb836f67e21c6a117bf6bc686b1d3f063168917dc2209390ac3f1"
+    },
+    "measurements": {
+      "name": "row_deltas.csv",
+      "sha256": "5cc23dbf6d45f343b1d25a197a79302e55caff43c4e26b8a866af2f9ed62a89b"
+    },
+    "consensus": {
+      "name": "variant_consensus.csv",
+      "sha256": "eb754f97cfb4abb7a043cfe1997fe8155a395cf6037be7714680c69b7c6a69da"
+    },
+    "predictions": {
+      "name": "baseline_predictions.csv",
+      "sha256": "dcc6b0e5f772b6e823d4dfdac90979bc016ada78772c4e1567d51f34ba36beb1"
+    },
+    "reference": {
+      "name": "wt_reference_audit.json",
+      "sha256": "57ab13c19f160350c3ac581ce4fa6a460e5e2611c9f4a84d7a5a8afd3712373d"
+    },
+    "database": {
+      "name": "BglB_characterization_data_curated.csv",
+      "sha256": "fdfa0a47c0ed9154532634e81bf1e9c3fd6302a24d756f07eac76bab44bffcee"
+    },
+    "catpred_variants": {
+      "name": "catpred_relative_kcatkm_by_substitution.csv",
+      "sha256": "512b46e9335fd970958c711297119454b333a49d9f08aec63af39d26b6a6ef49"
+    },
+    "catpred_summary": {
+      "name": "catpred_database_summary.json",
+      "sha256": "5706fc626bdab16ff3c48c020de62e9e1312c7bc3f89c9de30ac1609b1a92cb7"
+    }
+  },
+  "files": {
+    "audit.csv": {
+      "sha256": "842c821f0d3ddb4daec60a455ec2eeb4ea86918564cabbf2b566098cf4daffe5",
+      "rows": 1519
+    },
+    "measurements.csv": {
+      "sha256": "3767cbf8f931f289425eeb0b0273e50656f481bfbff1821fca788ad033e62170",
+      "rows": 968
+    },
+    "consensus.csv": {
+      "sha256": "689fcf649458464e8ce860ed5b5ac97b7b91dbf599c3d5e2d2297d64af7a29a6",
+      "rows": 756
+    },
+    "predictions.csv": {
+      "sha256": "63b52113adabf635d9374285e29b59ab1321f3631acb24b2863451ebaf35da33",
+      "rows": 615
+    },
+    "reference.json": {
+      "sha256": "5de13765d3b1ee312347e743c4e215e99241020cf4a0bb0313699d48d383b3a9"
+    }
+  }
+}

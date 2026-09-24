@@ -1,0 +1,12 @@
+cff-version: 1.2.0
+message: "Please cite this repository when using its analysis. Also credit D2D for the experimental measurements and CatPred for the model."
+type: software
+title: "BglB mutation analysis"
+authors:
+  - family-names: Zhao
+    given-names: Mixin
+version: 0.3.0
+date-released: 2026-09-24
+repository-code: "https://github.com/MixinZh/bglb-mutation-analysis"
+license: MIT
+abstract: "Reproducible comparison of repeated BglB measurements from the public Design2Data database with CatPred results. The analysis reports record selection, WT comparisons, agreement cases, and missed mutation effects."

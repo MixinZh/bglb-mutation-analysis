@@ -27,35 +27,41 @@ preserved; the check did not add new records or change existing values.
 
 ## Revised selection
 
-Start from the earlier audit's eligible kinetic records in `row_deltas.csv`.
-That audit checked mutation identity, expression, usable positive kinetics,
-units, and WT comparisons. The bundled inputs retain its decisions. The
-reproduction command checks expected sequences against WT and recalculates
+Start with the measurements that passed the earlier data checks, included
+in `data/bglb/measurements.csv`. Those checks covered mutation identity,
+expression, usable positive kinetics, units, and WT comparisons. The bundled
+inputs preserve the decisions. The reproduction command checks expected
+sequences against WT and recalculates
 efficiencies and WT comparisons. It cannot establish experimental sequence
 identity or repeat checks requiring original instrument records.
 
-Retain each eligible record only if its WT baseline is a row reference or a
-documented contributor-group WT, its contributor information is present, and
-its earlier row-level downweight field is empty. Global-WT fallback, unknown
-context, and row-quality flags are documented exclusions from this comparison.
-They are preserved in the broader analysis.
+Include a measurement only when it has WT reference values recorded with
+that entry or calculated from WT measurements from the same contributor
+group. Contributor information must be present, and the earlier checks must
+not have marked a data issue as reducing confidence in that measurement.
+In the input table, those issues appear in `phase1_downweight_reason_codes`.
+Entries using only the overall WT reference, entries with unknown
+contributors, and entries with those data issues are left out of this
+comparison. Their original usable values remain in the broader comparison.
 
-Recalculate the summary from retained records: take the median within each
-contributor group and then the median across groups on the
-`log10(mutant efficiency / WT efficiency)` scale. Convert to displayed fold
-values with `10 ** effect`.
+Calculate the combined measured value from the included measurements: take
+the median within each contributor group and then the median across groups
+on the `log10(mutant efficiency / WT efficiency)` scale. Convert back to the
+displayed ratio with `10 ** effect`.
 
-Require at least four retained records and four contributor groups. Apply the
-unchanged consistency checks to individual retained effects and contributor
-group medians. Reject from the selected set if either has values at or below
--0.2 and at or above +0.2 log10, or sample standard deviation above 0.60 log10.
-An exclusion does not prove noise; passing does not prove correctness.
+Require at least four included measurements and four contributor groups.
+Apply the unchanged consistency checks to both the individual measurements
+and the contributor-group medians. Leave a mutation out of the selected set
+if either has values at or below -0.2 and at or above +0.2 log10, or sample
+standard deviation above 0.60 log10. An exclusion does not prove noise;
+passing these checks does not prove correctness.
 
-Order qualifying mutations by retained count, then total raw count, then
-position and mutation name. The lead figure shows those with at least six
-retained records. That threshold controls presentation only: all qualifying
-mutations with four or more retained records are evaluated and shown in the
-full figure. Selection and ordering never use prediction agreement.
+Order mutations that meet these rules by the number of included measurements,
+then the total number of database entries, then position and mutation name.
+The main figure shows mutations with at least six included measurements.
+This threshold controls presentation only: all mutations meeting the rules
+with at least four included measurements are evaluated and shown in the full
+figure. Agreement with CatPred does not affect selection or ordering.
 
 ## Correction to the earlier draft
 
@@ -69,14 +75,16 @@ Original audit labels are retained in the bundled inputs. Earlier model
 results were already known. This is a retrospective correction, not an
 untouched test set or preregistration.
 
-## Independence and own-WT-reference check
+## Independence and the comparison using recorded WT references
 
 N220F records 616 and 693 have identical kcat and KM values but different
 WT-reference information. Their relationship is unresolved. Record 616 uses
-a contributor-group WT; the other ten retained records have their own WT
-references. The ten-record calculation excludes 616 and still places every
-measured result above WT. The output records own-WT-reference counts and
-summaries for every mutation.
+WT measurements from the same contributor group; the other ten included
+entries have their own recorded WT reference values. Repeating the
+comparison with only those ten entries excludes 616 and still places every
+measured result above WT. For every mutation, the output reports the number
+of entries with their own WT reference values and their combined measured
+value.
 
 R427L has four usable records but two contributor groups, including potentially
 reused kinetic records. It remains outside the selected set. Neither records
@@ -87,9 +95,9 @@ experiment-level evidence.
 
 Use `raw_catpred` rows from the earlier baseline table and its
 `position_holdout` entries to obtain one CatPred result per mutation.
-CatPred itself was not fitted on those folds. Before comparing to the new
-retained-record summary, verify that the prediction table refers to the
-original measured target. Missing predictions stop the calculation.
+CatPred itself was not fitted on those folds. Before comparing to the combined
+measured value after the additional selection, verify that the prediction
+table refers to the original measured value. Missing predictions stop the calculation.
 
 The CatPred results come from the May 15, 2026 prediction export, which used
 `log10kcat_max` and `log10km_mean`. Its exact code revision is not established
@@ -103,8 +111,9 @@ for measured effects at least 0.2 log10 away from WT. A no-change baseline
 always predicts WT-like activity. No significance or confidence-interval
 claims are made from this small set.
 
-The broad 33-mutation comparison keeps its original measured summaries.
-Selected-set metrics use the newly calculated retained-record summaries.
+The broad 33-mutation comparison keeps its original combined measured values.
+Results for the 11 selected mutations use the combined values recalculated
+from the measurements included after the additional selection.
 This distinction prevents the revised filtering from silently changing the
 broader reference result.
 
@@ -147,7 +156,7 @@ The original measured targets must reproduce from the grouped measurements.
 all 1,192 mutant records, with specific earlier exclusion reasons.
 `comparison.csv` retains all 33 repeated mutations with original and revised
 summaries. `summary.json` records rules, metrics, validation counts, and input
-and code hashes. Figures use retained record IDs, so excluded measurements
+and code hashes. Figures use the IDs of the included entries, so excluded measurements
 cannot appear silently as included values. `report.md` provides a readable
 summary. All outputs are written into the chosen output directory.
 
@@ -184,7 +193,7 @@ raw field comparison preserves the source spelling, including `D150v`.
 - 1,501 records matched in every column. The other 18 had 25 changed fields:
   14 approval flags and 11 temperature-related values.
 - All 86 entries for the 11 selected mutations matched in every column and
-  remain approved. This includes all 63 retained measurements.
+  remain approved. This includes all 63 measurements in the selected comparison.
 - In the broader 33-mutation set, F243H records 2575 and 1221 are no longer
   approved. Record 2575 is shown when pending records are included. Record
   1221 is returned by the data endpoint but is not currently displayed in

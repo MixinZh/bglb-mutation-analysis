@@ -241,18 +241,18 @@ def report_text(summary, comparison):
     title = "CatPred results" if summary['model'] == 'raw_catpred' else "model results"
     text = [f"# Repeated BglB measurements and {title}", "",
             f"Dataset: {summary['dataset_label']}.", "",
-            "Each dot is a measurement included in this comparison. Different database entries do not establish independent biological replicates.",
-            "Entries with the same recorded contributor are grouped together. These groups are not verified experimental batches.", "",
+            "Each dot is an included measurement. Several database records do not necessarily mean several separate experiments.",
+            "Records are grouped by submitter username, the database Created by field, not by institution. A username does not prove who performed an experiment.", "",
             "## Which measurements are included?", "",
             f"The input contains {summary['selection']['total_mutations']} substitutions. "
             f"{summary['selection']['all_repeated']} have at least four usable measurements. "
             f"{summary['selection']['primary']} meet the additional selection rules, and "
             f"{summary['selection']['highest_repeat']} of those have six or more measurements included. "
             "Mutations are ordered by the number of included measurements. Agreement with the model does not affect selection.", "",
-            "An entry may be excluded because contributor information is missing, a suitable WT reference is unavailable, or a data issue was flagged in the earlier checks. The selection also limits opposing changes and large differences among measurements. An exclusion does not prove that a measurement is noise.", "",
-            "The selection was revised after the broader results were known. The methods explain that change, including why a separate excluded entry no longer prevents using the other measurements for a mutation.", "",
+            "Exclude a measurement if its submitter username is unknown, it lacks a WT reference saved with the record or available under the same username, or it has an earlier data-quality flag. Exclude a mutation if too few measurements or usernames remain, the measurements strongly conflict, or their spread is too large. Exclusion does not prove a measurement is wrong.", "",
+            "The selection was revised after the broader results were known. The methods explain that change, including why one excluded record no longer excludes all other measurements for the mutation.", "",
             "## Main comparison", "",
-            "| Mutation | All entries | Usable measurements | Measurements included | Contributor groups | Measured efficiency / WT | Predicted efficiency / WT | Range of included measurements |",
+            "| Mutation | D2D records | Usable measurements | Included measurements | Submitter usernames | Measured efficiency / WT | Predicted efficiency / WT | Range of included measurements |",
             "|---|---:|---:|---:|---:|---:|---:|---:|"]
     for row in comparison:
         if row["primary"]:
@@ -260,7 +260,7 @@ def report_text(summary, comparison):
                         f"{row['observed_fold_vs_wt']:.3g} | {row['predicted_fold_vs_wt']:.3g} | "
                         f"{row['record_min_fold_vs_wt']:.3g} to {row['record_max_fold_vs_wt']:.3g} |")
     text += ["", "WT means the wild-type enzyme. Both measured and predicted values show catalytic efficiency relative to WT. A value of 1 means no change; 0.1 means one tenth of WT.",
-             "To calculate the combined measured value, express each mutant-to-WT ratio on a log10 scale, take the median within each contributor group and then the median across groups, and convert back to a ratio. This gives each contributor group equal weight. The range shows the lowest and highest included measurements; it is not a confidence interval.",
+             "Divide each measured mutant efficiency by its experimental WT reference and take log10. Take the median for each submitter username, then the median of those values, and convert back to a ratio. If every measurement has a different username, this is simply the median of the log10 ratios converted back. The range gives the lowest and highest included measurements, not a confidence interval.",
              "", "## Results for the three comparisons", "",
              "| Set | Mutations | Rank agreement | Average error (log10) | No-change average error (log10) | Correct direction |",
              "|---|---:|---:|---:|---:|---:|"]
@@ -272,14 +272,14 @@ def report_text(summary, comparison):
         text.append(f"| {names[key]} | {values['n_mutations']} | {fmt(values['spearman'])} | "
                     f"{fmt(values['mean_absolute_error_log10'])} | {fmt(values['no_change_mean_absolute_error_log10'])} | "
                     f"{values['direction_correct']}/{values['direction_total']} |")
-    text += ["", "Rank agreement is Spearman correlation: 1 means the same ranking and -1 means the reverse ranking. Small sets make this number unstable.",
-             "Average error uses the log10 scale, so large fold differences do not dominate solely because of their units. The no-change comparison always predicts WT-like activity.",
-             "Direction is scored only when the measured effect is at least 0.2 log10 from WT, using the prediction's sign. Tiny predicted effects can therefore count as correct direction.",
+    text += ["", "Rank agreement asks whether predictions put mutations in the same order of efficiency as the measurements. Spearman correlation is 1 for the same order and -1 for the reverse order. With few mutations, this number can change substantially.",
+             "Average error is the average distance between predicted and measured log10 ratios. Smaller means closer predictions. The no-change comparison always predicts 1 times WT, meaning the mutation has no effect.",
+             "The direction check asks whether the predicted mutant/WT ratio and measured mutant/WT ratio are both above 1 or both below 1. Predictions use predicted WT; measurements use experimental WT. Only measured effects at least 0.2 log10 from WT count, about 0.63 times WT or lower, or 1.58 times WT or higher. These are measured-change cutoffs, not statistical significance tests. Small predicted changes can still count as the correct direction.",
              "", "## Limits", "",
              "This comparison uses the BglB/pNPG data and model results identified in the input files. The model was not rerun for this report. Database dates and model settings are documented in the project methods.",
              "The broader dataset results were already known before this subset analysis. No untouched test set, new model fitting, or new experimental validation is claimed.",
-             "Four entries alone do not establish reliability. The selection rules limit opposing changes and large differences among the included measurements. A mutation can still be included when its other measurements meet the rules.",
-             "Selection remains retrospective, and the set is small. Results cannot establish performance across D2D, other enzymes, or other substrates.",
+             "Four records alone do not establish reliability. The selection rules limit opposing changes and large differences among the included measurements. A mutation can still be included when its other measurements meet the rules.",
+             "The selection rules changed after the broader results were known. This small comparison does not establish performance on all D2D data, other enzymes, or other substrates.",
              "The earlier audit is required: this tool does not independently validate raw sequences, units, expression labels, or source data.", ""]
     return "\n".join(text)
 
@@ -309,12 +309,12 @@ def plot(comparison, measurements, output, model_label="Model result", highest_o
     ax.yaxis.set_major_locator(LogLocator(base=10))
     ax.yaxis.set_major_formatter(FuncFormatter(lambda value, _: f"{value:g}"))
     ax.set_ylabel("Catalytic efficiency relative to WT (fold, log scale)")
-    ax.set_xticks(range(len(rows)), [f"{r['mutation_id']}\n{r['retained_records']} included\n{r['total_database_records']} total entries" for r in rows])
+    ax.set_xticks(range(len(rows)), [f"{r['mutation_id']}\n{r['retained_records']} included\n{r['total_database_records']} total records" for r in rows])
     ax.set_title("BglB mutations with the most included measurements" if highest_only else "All BglB mutations that meet the selection rules", loc="left", pad=20)
     ax.grid(axis="y", alpha=0.15)
     ax.spines[["right", "top"]].set_visible(False)
     ax.legend(loc="lower left", fontsize=8)
-    fig.text(0.08, 0.02, "Dots are included measurements; total entries also count missing or excluded measurements.\nCombined value: medians within and across contributor groups on the log10 scale, converted back to a ratio.\nSeparate entries do not establish independent experiments.", fontsize=9)
+    fig.text(0.08, 0.02, "Dots: included measurements. Diamonds: combined measured values. Crosses: predictions.\nWT = 1. Above 1 means higher efficiency; below 1 means lower efficiency.\nTotal records also include missing or excluded measurements. Records may share an experiment.", fontsize=9)
     fig.tight_layout(rect=(0, 0.14, 1, 1))
     fig.savefig(output, dpi=180)
     plt.close(fig)

@@ -43,14 +43,14 @@ The source file exported from the D2D database contains `Institution` and `Creat
 
 For each selected mutation:
 
-1. **Compare each included measurement with its WT reference.** Divide the mutant's `kcat/KM` by the reference WT's `kcat/KM`, required when you submit mutant data, then take `log10` of that ratio. The WT reference must be recorded with the mutant record or calculated from WT measurements submitted under the same username.
-```
-measurement effect = log10(mutant efficiency / reference WT efficiency)
-```
-On the log10 scale, WT is 0, ten times WT is +1, and one tenth of WT is -1. The medians are then calculated based on that scale. The result is **not an arithmetic average of all measurements, or a single median taken across all measurements**.
+1. **Compare each included measurement with its WT reference.** Divide the mutant's `kcat/KM` by the reference WT's `kcat/KM`, then take `log10` of that ratio. Use the WT efficiency recorded with the mutant, or the median of usable WT efficiencies submitted under the same username. On the log10 scale, WT is 0, ten times WT is +1, and one tenth of WT is -1.
+2. **Combine the measurements.** Take the median of the log10 ratios for each username, then the median of those username values. The median is the middle value after sorting, or the average of the two middle values when the count is even.
+3. **Convert back to a ratio.** Calculate `10 ** result` using the final value from step 2.
+
+For all four mutations in the main figure, every included measurement has a different username. Their combined value is therefore the median of the included log10 ratios, converted back to a ratio. It is not the arithmetic average of the ratios.
 
 For CatPred, the predicted WT efficiency is used as the reference.
-The code also checks whether CatPred correctly ranks mutations by efficiency, how far its predictions are from the measurements, and whether it predicts an increase or decrease relative to WT. For the increase-or-decrease check, it uses mutant prediction / reference WT and it only marks values below 0.63 or above 1.58 times WT as significant.
+The code also checks whether CatPred correctly ranks mutations by efficiency, how far its predictions are from the measurements, and whether it predicts an increase or decrease relative to WT. For the increase-or-decrease check, include mutations whose combined measured efficiency is about 0.63 times WT or lower, or 1.58 times WT or higher (at least 0.2 log10 from WT). Count a prediction as correct when it points in the same direction. These cutoffs describe the size of the measured change, not statistical significance.
 
 ## How were measurements chosen?
 

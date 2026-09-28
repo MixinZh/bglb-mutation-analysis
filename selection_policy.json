@@ -5,8 +5,23 @@
   "highlight_minimum_records": 6,
   "effect_threshold_log10": 0.2,
   "high_spread_threshold_log10": 0.6,
-  "selection_basis": "Review usable measurements individually. Retain rows with a recorded WT reference or documented contributor-group WT, known contributor, and no earlier row-level downweight flag. Recompute the mutation summary and existing disagreement checks on those rows. At least four retained records and four contributor groups are required. A separately excluded record does not veto a mutation. Rank qualified mutations by retained-record count, without using predictions.",
-  "amendment": "The original whole-mutation quality gate excluded N220F because one of its 12 records lacked usable expression and kinetic data. This revision assesses contributing records directly, retaining all earlier exclusions and labels. The rule change is retrospective, and the original broader-dataset results were already known.",
-  "analysis_status": "Retrospective descriptive analysis. Existing full-dataset results were already known. This is not a preregistered or untouched validation set.",
-  "replicate_boundary": "Database records and contributor groups are counted. Neither establishes independent biological replicates without experiment-level metadata."
+  "selection_basis": "Select mutations with at least four usable measurements from four different submitter usernames.",
+  "replicate_boundary": "Contributor groups means submitter usernames. Usernames identify the accounts that entered the data, not necessarily different researchers or separate experiments.",
+  "measurement_exclusions": [
+    "Exclude records with incorrect mutation labels or protein sequences, no recorded protein production, missing enzyme efficiency, zero or negative enzyme measurements, or unclear units.",
+    "Also exclude a record if its reported efficiency and the efficiency recalculated from its measurements differ by more than about twofold (0.30 log10). This applies to both the mutant and its wild-type reference.",
+    "Exclude measurements with an unknown submitter username."
+  ],
+  "wt_comparison": [
+    "Wild-type (WT) BglB is the original protein without an introduced mutation. Comparing the mutant with WT tells us whether the mutation increases or decreases enzyme efficiency.",
+    "Use the WT value saved with the mutant record. If unavailable, use the median (middle value) of usable WT measurements submitted under the same username. If neither exists, exclude the mutant measurement. Sharing a username does not prove the measurements came from the same experiment."
+  ],
+  "disagreement_checks": [
+    "Exclude a mutation if one measurement is about 0.63 times WT or lower and another is about 1.58 times WT or higher. The exact cutoffs are -0.2 and +0.2 on the log10 scale.",
+    "Also exclude it if the sample standard deviation, which measures how far results spread around their average, exceeds 0.6 after converting mutant/WT ratios to log10. Log10 expresses changes by factors: one unit means tenfold. Apply both checks to individual measurements and to each username's median."
+  ],
+  "combined_result": "Using log10 ratios, take the median within each username, then across usernames. Convert back to a mutant/WT ratio.",
+  "ranking": "Rank mutations by included-measurement count, highest first. Break ties by total record count, highest first, then mutation position and name. Highlight those with six or more included measurements. Predictions do not influence selection.",
+  "amendment": "N220F's unusable record stays excluded; its other 11 measurements can count. Apply this rule to every mutation and preserve excluded records with their reasons.",
+  "analysis_status": "Because the rule changed after results were known, this is a review of existing evidence, not a fresh test of predictions."
 }

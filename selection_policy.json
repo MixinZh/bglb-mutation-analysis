@@ -5,23 +5,30 @@
   "highlight_minimum_records": 6,
   "effect_threshold_log10": 0.2,
   "high_spread_threshold_log10": 0.6,
-  "selection_basis": "Select mutations with at least four usable measurements from four different submitter usernames.",
-  "replicate_boundary": "Contributor groups means submitter usernames. Usernames identify the accounts that entered the data, not necessarily different researchers or separate experiments.",
+  "selection_basis": "First check each measurement using the rules below. After exclusions, select a mutation only if at least four measurements remain, from at least four different submitter usernames, and the remaining results pass both disagreement checks.",
+  "what_counts_as_a_measurement": "One measurement is one mutant record in the saved D2D database. The minimum_eligible_records value of 4 counts only measurements that pass all the measurement checks below. It does not count every record for that mutation. The minimum_contributor_groups value of 4 counts different submitter usernames among those remaining measurements.",
+  "replicate_boundary": "A submitter username is the account that entered the data. Four usernames do not prove that four different researchers performed four separate experiments.",
   "measurement_exclusions": [
-    "Exclude records with incorrect mutation labels or protein sequences, no recorded protein production, missing enzyme efficiency, zero or negative enzyme measurements, or unclear units.",
-    "Also exclude a record if its reported efficiency and the efficiency recalculated from its measurements differ by more than about twofold (0.30 log10). This applies to both the mutant and its wild-type reference.",
-    "Exclude measurements with an unknown submitter username."
+    "Exclude a record if its mutation label does not describe one amino acid change from WT, or if a supplied protein sequence does not match that change. When no sequence was supplied, the earlier check generated the expected sequence from WT. That calculation does not confirm the sequence of the experimental protein.",
+    "Exclude a record unless protein production was recorded as yes. A record marked not expressed does not count as zero enzyme activity.",
+    "Enzyme efficiency means kcat divided by KM. Use this calculation when both measurements are positive. Otherwise, use a positive reported efficiency. Exclude the record if neither gives a positive efficiency.",
+    "Exclude a record if any recorded mutant or WT-reference kinetic value is zero or negative, or if its units or numerical value cannot be interpreted.",
+    "When both calculated and reported efficiencies are available, exclude the record if they differ by more than 0.30 log10, about twofold. Check both the mutant and the WT reference saved with that record.",
+    "Exclude a measurement if its submitter username is unknown, or if it has no WT reference allowed by the rules below.",
+    "Also exclude a measurement if the earlier audit saved a reason in phase1_downweight_reason_codes. In the bundled data, these reasons are an unknown username, a database-wide WT reference, or the efficiency disagreement above. Smaller efficiency differences that were only flagged do not automatically exclude a measurement."
   ],
   "wt_comparison": [
-    "Wild-type (WT) BglB is the original protein without an introduced mutation. Comparing the mutant with WT tells us whether the mutation increases or decreases enzyme efficiency.",
-    "Use the WT value saved with the mutant record. If unavailable, use the median (middle value) of usable WT measurements submitted under the same username. If neither exists, exclude the mutant measurement. Sharing a username does not prove the measurements came from the same experiment."
+    "Wild-type (WT) BglB is the protein without the introduced mutation. Divide the mutant's efficiency by the WT efficiency. A ratio above 1 means higher measured efficiency than WT; a ratio below 1 means lower measured efficiency.",
+    "Use a positive WT efficiency saved with the mutant record first. If none is available, use the median of WT efficiencies that passed the earlier measurement checks under the same submitter username. Exclude the mutant measurement if neither reference is available. Do not use the database-wide WT median for this selection. Sharing a username does not establish that mutant and WT were measured in the same experiment."
   ],
+  "count_after_exclusions": "Count measurements and usernames only after applying these exclusions. One excluded record does not exclude the entire mutation. For example, N404M has seven measurements that passed the earlier checks, but record 3330 uses the database-wide WT reference. Exclude that record and count the remaining six measurements.",
   "disagreement_checks": [
-    "Exclude a mutation if one measurement is about 0.63 times WT or lower and another is about 1.58 times WT or higher. The exact cutoffs are -0.2 and +0.2 on the log10 scale.",
-    "Also exclude it if the sample standard deviation, which measures how far results spread around their average, exceeds 0.6 after converting mutant/WT ratios to log10. Log10 expresses changes by factors: one unit means tenfold. Apply both checks to individual measurements and to each username's median."
+    "Use only the measurements remaining after exclusions. Convert each mutant/WT ratio to log10, where WT is 0, ten times WT is +1, and one tenth of WT is -1. Make two lists: all individual log10 ratios, and the median log10 ratio for each username. Apply both checks below to each list.",
+    "Exclude the mutation if either list contains both a value at or below -0.2 and a value at or above +0.2. These correspond to about 0.63 times WT or lower and 1.58 times WT or higher. This excludes results showing opposing changes of at least those sizes. It does not require every result to be on the same side of WT.",
+    "Also exclude the mutation if either list has a sample standard deviation greater than 0.60 log10. This statistic measures how far values spread around their average. The 0.60 cutoff applies to that statistic, not to the distance between any two measurements. Passing these checks does not prove the measurements are correct, and the cutoffs are not tests of statistical significance."
   ],
-  "combined_result": "Using log10 ratios, take the median within each username, then across usernames. Convert back to a mutant/WT ratio.",
-  "ranking": "Rank mutations by included-measurement count, highest first. Break ties by total record count, highest first, then mutation position and name. Highlight those with six or more included measurements. Predictions do not influence selection.",
-  "amendment": "N220F's unusable record stays excluded; its other 11 measurements can count. Apply this rule to every mutation and preserve excluded records with their reasons.",
-  "analysis_status": "Because the rule changed after results were known, this is a review of existing evidence, not a fresh test of predictions."
+  "combined_result": "For each username, take the median of its remaining log10 ratios. Then take the median of those username values and calculate 10 to the power of that result to return to a mutant/WT ratio. The median is the middle value after sorting, or the average of the two middle values when the count is even. Each username contributes one value to the final median.",
+  "ranking": "Rank mutations that pass by the number of included measurements, largest first. Break ties by total database record count, largest first, then by position and mutation name in ascending order. Show mutations with at least six included measurements in the main figure. Mutations that pass with four or five included measurements remain in the analysis and full figure. CatPred predictions do not affect selection or ranking.",
+  "amendment": "N220F has 12 database records. Exclude the one marked not expressed with no usable kinetics; its other 11 measurements can count if they pass the rules above. Apply the same rules to every mutation. Preserve every excluded record and its reason.",
+  "analysis_status": "These rules were revised after the results were known. This comparison reviews existing measurements; it does not test predictions against new experimental results."
 }

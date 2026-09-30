@@ -27,11 +27,9 @@ In the chart below, **WT is set to 1.** A ratio above 1 means higher catalytic e
 | N404M | 8 | 7 | 6 | 0.0075 | 0.62 |
 
 The first count includes every database record for that mutation in the snapshot, including kinetic measurements that are excluded under [selection_policy.json](selection_policy.json).
-The second counts usable measurements from the earlier data review. The third count shows the records that were retained after the additional selection described below.
+The second counts the usable measurements for that mutation in [data/bglb/measurements.csv](data/bglb/measurements.csv). The third count shows the records that were retained after the additional selection described below.
 
 ![Repeated BglB measurements compared with CatPred results](docs/figures/comparison.png)
-
-The figure files are unchanged and still use some older wording.
 
 For **N220F**, the included measurements range from 1.21 to 12.68 times WT. They disagree about the size of the increase, but all are above WT. Their combined value is 3.36 times WT, compared with CatPred's 0.58 times WT.
 For **R246K**, the combined measured value is 1.82 times WT, but individual measurements range from 0.68 to 4.00 times WT. Unlike N220F, its measurements do not all point in the same direction.
